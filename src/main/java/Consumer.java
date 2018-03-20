@@ -16,14 +16,14 @@ import java.util.Scanner;
 public class Consumer {
     private static Scanner in;
     public static void main(String[] argv)throws Exception{
-   /*     if (argv.length != 2) {
+       if (argv.length != 2) {
             System.err.printf("Usage: %s <topicName> <groupId>\n",
                     Consumer.class.getSimpleName());
             System.exit(-1);
-        }*/
+        }
         in = new Scanner(System.in);
-        String topicName = "DP_WEBHOOK";
-        String groupId = "TEST";
+        String topicName = argv[0];
+        String groupId = argv[1];
         ConsumerThread consumerRunnable = new ConsumerThread(topicName,groupId);
         consumerRunnable.start();
         String line = "";
