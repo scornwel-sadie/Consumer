@@ -27,12 +27,12 @@ public class Consumer {
         ConsumerThread consumerRunnable = new ConsumerThread(topicName,groupId);
         consumerRunnable.start();
         String line = "";
-        while (!line.equals("exit")) {
-            line = in.next();
-        }
-        consumerRunnable.getKafkaConsumer().wakeup();
+     //   while (!line.equals("exit")) {
+     //       line = in.next();
+     //   }
+   //     consumerRunnable.getKafkaConsumer().wakeup();
         System.out.println("Stopping consumer .....");
-        consumerRunnable.join();
+ //       consumerRunnable.join();
     }
     private static class ConsumerThread extends Thread{
         private String topicName;
@@ -53,11 +53,17 @@ public class Consumer {
             kafkaConsumer = new KafkaConsumer<String, String>(configProperties);
             kafkaConsumer.subscribe(Arrays.asList(topicName));
             //Start processing messages
+            boolean keepRunning = true;
             try {
-                while (true) {
+                while (keepRunning) {
                     ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
-                    for (ConsumerRecord<String, String> record : records)
+                    for (ConsumerRecord<String, String> record : records){
                         System.out.println(record.value());
+                        String Smitty = record.value();
+                        keepRunning = false;
+                    }
+
+
                 }
             }catch(WakeupException ex){
                 System.out.println("Exception caught " + ex.getMessage());
